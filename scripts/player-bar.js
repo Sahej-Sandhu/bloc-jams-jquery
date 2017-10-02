@@ -23,4 +23,25 @@ $(document).ready(function(){
     const prevSong = album.songs[prevSongIndex];
     player.playPause(prevSong);
   });
+
+  $('#time-control input').on('input', function(event){
+    player.skipTo(event.target.value);
+  });
+
+  $('#volume-control input').on('input', function(event){
+    player.setVolume(event.target.value);
+  });
+
+  setInterval( () => {
+    const currentTime = player.getTime();
+    const duration = player.getDuration();
+    const percent = (currentTime / duration) * 100;
+    $('#time-control .current-time').text(player.prettyTime(currentTime));
+    $('#time-control input').val(percent);
+
+    const totalTime = duration - currentTime;
+    $('#time-control .total-time').text(player.prettyTime(totalTime));
+  }, 1000);
+
+
 });
